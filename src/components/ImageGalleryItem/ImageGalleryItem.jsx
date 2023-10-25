@@ -1,7 +1,11 @@
-import React from 'react';
+import { StyledImageGalleryItem } from "./ImageGalleryItem.styled";
 
-const ImageGalleryItem = () => {
-  return <div>ImageGalleryItem</div>;
+const ImageGalleryItem = ({ id, webformatURL, largeImageURL }) => {
+  return (
+    <StyledImageGalleryItem>
+      <img src={webformatURL} alt="" />
+    </StyledImageGalleryItem>
+  );
 };
 
 export default ImageGalleryItem;

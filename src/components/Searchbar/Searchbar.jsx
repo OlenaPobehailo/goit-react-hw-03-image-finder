@@ -19,14 +19,13 @@ export class Searchbar extends Component {
       <StyledSearchbar>
         <form>
           <button type="submit">
-            <span class="button-label"></span>
+            <span className="button-label"></span>
             <BsSearch size='24px'/>
           </button>
           <input
             type="text"
-            name="input"
-            autocomplete="off"
-            autofocus
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
             onChange={this.handleInputChange}
           />

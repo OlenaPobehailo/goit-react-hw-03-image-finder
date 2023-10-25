@@ -1,4 +1,4 @@
-import ImageGallery from './ImageGallery';
+import ImageGalleryPage from './ImageGalleryPage';
 import Searchbar from './Searchbar';
 
 import { Container } from './App.styled';
@@ -7,8 +7,7 @@ export const App = () => {
   return (
     <Container>
       <Searchbar />
-      <ImageGallery />
-      
+      <ImageGalleryPage />
     </Container>
   );
 };

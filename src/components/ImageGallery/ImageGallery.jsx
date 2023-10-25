@@ -1,12 +1,15 @@
 import ImageGalleryItem from 'components/ImageGalleryItem';
-import React from 'react';
 
-const ImageGallery = () => {
+import { StyledImageGallery } from './ImageGallery.styled';
+
+const ImageGallery = ({ images = [] }) => {
+  console.log('ImageGallery', images);
   return (
-    <div>
-      ImageGallery
-      <ImageGalleryItem />
-    </div>
+    <StyledImageGallery>
+      {images.map(image => (
+        <ImageGalleryItem key={image.id} {...image} />
+      ))}
+    </StyledImageGallery>
   );
 };
 
