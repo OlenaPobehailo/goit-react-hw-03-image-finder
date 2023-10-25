@@ -5,25 +5,31 @@ import { StyledSearchbar } from './Searchbar.styled';
 
 export class Searchbar extends Component {
   state = {
-    input: '',
+    searchStr: '',
   };
 
   handleInputChange = ({ target }) => {
     this.setState({
-      input: target.value,
+      searchStr: target.value,
     });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.setQuery({ query: this.state.searchStr });
+    this.setState({ searchStr: '' });
   };
 
   render() {
     return (
       <StyledSearchbar>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <button type="submit">
             <span className="button-label"></span>
-            <BsSearch size='24px'/>
+            <BsSearch size="24px" />
           </button>
           <input
-            type="text"
+            type="search"
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
