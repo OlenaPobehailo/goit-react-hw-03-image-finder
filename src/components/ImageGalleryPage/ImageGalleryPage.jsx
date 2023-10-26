@@ -29,6 +29,8 @@ class ImageGalleryPage extends Component {
           per_page: 12,
           page,
           q: query,
+          image_type: 'photo',
+          orientation: 'horizontal',
         });
 
         if (!totalHits) {
