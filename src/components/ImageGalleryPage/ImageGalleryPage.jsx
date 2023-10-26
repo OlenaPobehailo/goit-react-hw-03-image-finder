@@ -1,35 +1,48 @@
 import { Component } from 'react';
-import ImageGallery from 'components/ImageGallery/ImageGallery';
-import { fetchImages } from 'services/api';
+import { Puff } from 'react-loader-spinner';
+
+import ImageGallery from 'components/ImageGallery';
 import Button from 'components/Button';
-import Searchbar from '../Searchbar/Searchbar';
+import Searchbar from 'components/Searchbar';
+import Modal from 'components/Modal';
+import { fetchImages } from 'services/api';
 
 class ImageGalleryPage extends Component {
   state = {
-    loading: false,
-    error: null,
     images: [],
     page: 1,
     query: '',
+    totalHits: null,
+    loading: false,
+    error: null,
+    isModalOpen: false,
+    modalData: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    const { page, per_page, query } = this.state;
+    const { page, query } = this.state;
 
     if (prevState.page !== page || prevState.query !== query) {
+      this.setState({ loading: true });
       try {
         const { total, hits, totalHits } = await fetchImages({
           per_page: 12,
           page,
           q: query,
         });
-        console.log(this.state.query);
+
+        if (!totalHits) {
+          return alert(`There is no images found with search request ${query}`);
+        }
 
         this.setState(prevState => ({
           images: [...prevState.images, ...hits],
+          totalHits,
         }));
       } catch (error) {
         this.setState({ error: error.message });
+      } finally {
+        this.setState({ loading: false });
       }
     }
   }
@@ -39,19 +52,46 @@ class ImageGalleryPage extends Component {
   };
 
   handleSetQuery = ({ query }) => {
-    this.setState({ query });
-    console.log(query);
+    this.setState({ query, images: [], page: 1 });
+  };
+
+  toggleModal = modalData => {
+    this.setState(prev => ({ isModalOpen: !prev.isModalOpen, modalData }));
   };
 
   render() {
-    const { images, query } = this.state;
+    const { images, totalHits, isModalOpen, modalData, loading } = this.state;
+
     return (
       <>
         <Searchbar setQuery={this.handleSetQuery} />
-        {query && <h2>{query}</h2>}
         <h2>{this.state.error}</h2>
-        <ImageGallery images={images} />
-        <Button onClick={this.handleLoadMore}>Load more</Button>
+        {loading && !images.length ? (
+          <Puff
+            height="80"
+            width="80"
+            radius={1}
+            color="#4fa94d"
+            ariaLabel="puff-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        ) : (
+          <ImageGallery images={images} toggleModal={this.toggleModal} />
+        )}
+
+        {totalHits > images.length ? (
+          <Button onClick={this.handleLoadMore}>
+            {loading ? 'Loading...' : 'Load more'}
+          </Button>
+        ) : null}
+
+        {isModalOpen ? (
+          <Modal onClose={this.toggleModal}>
+            <img src={modalData.largeImageURL} alt={modalData.tags} />
+          </Modal>
+        ) : null}
       </>
     );
   }

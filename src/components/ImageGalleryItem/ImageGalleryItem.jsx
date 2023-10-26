@@ -1,9 +1,19 @@
-import { StyledImageGalleryItem } from "./ImageGalleryItem.styled";
+import { StyledImageGalleryItem } from './ImageGalleryItem.styled';
 
-const ImageGalleryItem = ({ id, webformatURL, largeImageURL }) => {
+const ImageGalleryItem = ({
+  id,
+  webformatURL,
+  largeImageURL,
+  tags,
+  toggleModal,
+}) => {
   return (
     <StyledImageGalleryItem>
-      <img src={webformatURL} alt="" />
+      <img
+        src={webformatURL}
+        alt={tags}
+        onClick={() => toggleModal({ largeImageURL, webformatURL, tags })}
+      />
     </StyledImageGalleryItem>
   );
 };
