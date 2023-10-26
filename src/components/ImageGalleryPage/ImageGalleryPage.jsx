@@ -1,10 +1,10 @@
 import { Component } from 'react';
-import { Puff } from 'react-loader-spinner';
 
 import ImageGallery from 'components/ImageGallery';
 import Button from 'components/Button';
 import Searchbar from 'components/Searchbar';
 import Modal from 'components/Modal';
+import Loader from 'components/Loader';
 import { fetchImages } from 'services/api';
 
 class ImageGalleryPage extends Component {
@@ -25,7 +25,7 @@ class ImageGalleryPage extends Component {
     if (prevState.page !== page || prevState.query !== query) {
       this.setState({ loading: true });
       try {
-        const { total, hits, totalHits } = await fetchImages({
+        const { hits, totalHits } = await fetchImages({
           per_page: 12,
           page,
           q: query,
@@ -67,16 +67,7 @@ class ImageGalleryPage extends Component {
         <Searchbar setQuery={this.handleSetQuery} />
         <h2>{this.state.error}</h2>
         {loading && !images.length ? (
-          <Puff
-            height="80"
-            width="80"
-            radius={1}
-            color="#4fa94d"
-            ariaLabel="puff-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
+          <Loader />
         ) : (
           <ImageGallery images={images} toggleModal={this.toggleModal} />
         )}
