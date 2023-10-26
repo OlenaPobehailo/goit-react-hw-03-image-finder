@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { OverLay, StyledModal } from './Modal.styled';
 
 class Modal extends Component {
@@ -34,5 +35,10 @@ class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default Modal;

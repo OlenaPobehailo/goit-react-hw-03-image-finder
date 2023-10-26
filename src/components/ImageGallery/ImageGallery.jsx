@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types';
 import ImageGalleryItem from 'components/ImageGalleryItem';
-
 import { StyledImageGallery } from './ImageGallery.styled';
 
 const ImageGallery = ({ toggleModal, images = [] }) => {
@@ -10,6 +10,15 @@ const ImageGallery = ({ toggleModal, images = [] }) => {
       ))}
     </StyledImageGallery>
   );
+};
+
+ImageGallery.propTypes = {
+  toggleModal: PropTypes.func.isRequired,
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
 export default ImageGallery;
